@@ -15,13 +15,15 @@ def home():
 @app.route("/api/predict", methods=["GET"])
 def get_predict():
     content = request.args.get("content")
-    return response(True, "Successfully predicted content", predict(content))
-
+    if content is not None:
+        return response(True, "Successfully predicted content", predict(content))
+    return response(False, "Missing 'content' field")
 
 @app.route("/api/predict", methods=["POST"])
 def post_predict():
     content = request.get_json()["content"]
-    return response(True, "Successfully predicted content", predict(content))
-
+    if content is not None:
+        return response(True, "Successfully predicted content", predict(content))
+    return response(False, "Missing 'content' field")
 
 app.run("0.0.0.0", port="5500")
